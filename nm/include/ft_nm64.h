@@ -1,14 +1,7 @@
 #ifndef FT_NM_H_64
 # define FT_NM_H_64
 
-#include <fcntl.h>
-#include "unistd.h"
-
-// replace with my printf later on
-#include "stdio.h"
-
-// my header
-#include "fprototypes.h"
+#include "ft_nm.h"
 
 # define EI_NIDENT 16
 typedef __uint64_t		ELF64_Addr;
@@ -16,7 +9,6 @@ typedef __uint16_t		ELF64_Halfword;
 typedef __uint64_t		ELF64_Offset;
 typedef __uint32_t		ELF64_Word;
 typedef __uint64_t		ELF64_Xword;
-
 
 typedef struct s_ELF64_Header
 {

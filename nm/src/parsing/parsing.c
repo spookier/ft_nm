@@ -1,4 +1,23 @@
 #include "../../include/ft_nm64.h"
+#include "../../include/ft_nm.h"
+
+// save in memory and read the elf file with mmap();
+//find size first
+int processing(int argc, char **argv, int fd)
+{
+	t_FSTRUCT *fstruct;
+    fstruct = malloc(sizeof(t_FSTRUCT));
+	//struct stat fstruct;
+	int status;
+
+	status = fstat(fd, (struct stat *)fstruct);
+	if(status == -1)
+	{
+		printf("fstat failed\n");
+		return(-1);
+	}
+	printf("working %ld\n", fstruct->file_size);
+}
 
 int argc_parsing(int argc, char **argv)
 {
@@ -29,8 +48,10 @@ int argc_parsing(int argc, char **argv)
 			}
 			if(flag != -1)
 			{
-				//do the processing here
-				printf("processing: %s\n", argv[i]);	
+				// DO THE PROCESSING HERE
+				printf("processing: %s\n", argv[i]);
+				if(processing(argc, argv, fd) == -1)
+					return(-1);	
 			}
 			if(fd != -1)
 				close(fd);
