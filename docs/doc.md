@@ -1,6 +1,6 @@
 # ELF
 
-- parse that shit 
+- parse this shit
 
 - overview
 ```txt
