@@ -47,3 +47,23 @@ At a high level, the nm command works as follows:
 
 - Formatting and Output: Finally, the nm utility formats the extracted symbol information in a human-readable format and displays it on the console. The default output includes the symbol address, type (e.g., function, object, or other types), and name. You can customize the output using various command-line options, such as sorting the symbols alphabetically, displaying only specific types of symbols, or demangling C++ names.
 ```
+
+
+- wtf is symbol table
+```txt
+- A symbol table is a data structure used by compilers, linkers, and other programming tools to store and manage information about the named entities (also called symbols) in a program's source code. These named entities can include variables, functions, classes, constants, and other identifiers. Symbol tables are crucial for various stages of the compilation process, such as semantic analysis, code generation, and linking.
+
+A symbol table typically contains the following information for each symbol:
+
+Name: The identifier or name of the symbol, as it appears in the source code.
+Type: The data type of the symbol (e.g., integer, floating-point, array, or function).
+Scope: The scope or visibility of the symbol, such as global, local, or within a specific function or class.
+Address/Offset: The memory location or offset where the symbol is stored, either in the source code or the compiled binary.
+Attributes: Other properties related to the symbol, such as its storage class (e.g., static or extern), linkage, or alignment.
+Symbol tables are used in different stages of the compilation process for various purposes:
+
+During the semantic analysis, the compiler uses the symbol table to check the correctness of the source code, such as verifying that a variable is declared before it's used, or ensuring that a function call matches the function's definition.
+During code generation, the compiler uses the symbol table to determine the memory locations or offsets for the symbols in the compiled code, as well as generate appropriate instructions for accessing them.
+During linking, the linker combines the symbol tables of different object files to resolve external references, calculate final memory addresses, and create the final executable or shared library.
+By maintaining information about the symbols in a program, symbol tables play a crucial role in ensuring the correctness and efficiency of the compiled code.
+``` 
