@@ -4,10 +4,6 @@
 
 ## - overview
 
->Program structure: Create a C project with a Makefile. Your program should be named ft_nm and compile using the Makefile.
->
->Use your library: If you have an existing 'libft' (custom C library) from previous projects, make sure to include it at the root of your repository. Your Makefile should compile this library before compiling the ft_nm program.
->
 >Implement ft_nm: Write a C program that replicates the functionality of the 'nm' command without any options. You should use the following system calls and functions:
 >
 >
