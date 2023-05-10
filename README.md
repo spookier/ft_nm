@@ -1,5 +1,4 @@
 # nm
-recoding the command nm (without options) in C language
 
+- [PROJECT NOTES](../main/docs/notes.md)
 
-https://github.com/spookier/nm/blob/main/docs/notes.md
