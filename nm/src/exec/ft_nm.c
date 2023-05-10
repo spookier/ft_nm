@@ -1,9 +1,6 @@
-int main(void)
-{
-	int a;
-	int b;
+#include "../../include/ft_nm64.h"
 
-	b = 444;
-	a = 777;	
-	return(a);
+int main(int argc, char **argv)
+{
+	argc_parsing(argc, argv);
 }

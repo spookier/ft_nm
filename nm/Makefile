@@ -1,4 +1,3 @@
-# Variables
 NAME = ft_nm
 CC = cc
 #CFLAGS = -Wall -Wextra -Werror -g3
@@ -11,6 +10,7 @@ INCS = ./include/
 
 # Mandatory files
 FILES = $(EXEC_DIR)ft_nm.c \
+		$(PARSING_DIR)parsing.c \
 
 
 OBJ_FILES = $(FILES:.c=.o)

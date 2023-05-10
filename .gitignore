@@ -1,4 +1,7 @@
+.vscode
 *.o
 *.so
 *.a
 /nm/bin/ft_nm
+/nm/bin/binary
+/nm/bin/a.out
