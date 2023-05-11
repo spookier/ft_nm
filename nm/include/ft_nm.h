@@ -22,6 +22,7 @@ typedef struct s_data
 
 
 // my custom stat struct for fstat
+// must allocate sizeof(struct stat) when used
 typedef struct s_FSTRUCT 
 {
     dev_t       device_id;

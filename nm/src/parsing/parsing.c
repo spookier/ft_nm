@@ -7,11 +7,12 @@ int get_size(int argc, char **argv, int fd)
 	t_FSTRUCT *fstruct;
 	int status;
 
-	//printf("ok\n");
-	//find out why it crash when no printf
-    fstruct = malloc(sizeof(t_FSTRUCT));
+    fstruct = malloc(sizeof(struct stat));
 	if(!fstruct)
+	{
+		printf("malloc failled to allocate fstruct()\n");
 		return(-1);
+	}
 	status = fstat(fd, (struct stat *)fstruct);
 	if(status == -1)
 	{
@@ -19,6 +20,7 @@ int get_size(int argc, char **argv, int fd)
 		return(-1);
 	}
 	//printf("file size %ld\n", fstruct->file_size);
+	free(fstruct);
 	return(0);
 }
 
