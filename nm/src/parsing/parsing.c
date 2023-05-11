@@ -2,21 +2,31 @@
 #include "../../include/ft_nm.h"
 
 // save in memory and read the elf file with mmap();
-//find size first
-int processing(int argc, char **argv, int fd)
+int get_size(int argc, char **argv, int fd)
 {
 	t_FSTRUCT *fstruct;
-    fstruct = malloc(sizeof(t_FSTRUCT));
-	//struct stat fstruct;
 	int status;
 
+	//printf("ok\n");
+	//find out why it crash when no printf
+    fstruct = malloc(sizeof(t_FSTRUCT));
+	if(!fstruct)
+		return(-1);
 	status = fstat(fd, (struct stat *)fstruct);
 	if(status == -1)
 	{
-		printf("fstat failed\n");
+		printf("fstat() failed\n");
 		return(-1);
 	}
-	printf("working %ld\n", fstruct->file_size);
+	//printf("file size %ld\n", fstruct->file_size);
+	return(0);
+}
+
+int processing(int argc, char **argv, int fd)
+{
+	if(get_size(argc, argv, fd) == -1)
+		return(-1);
+	return(0);
 }
 
 int argc_parsing(int argc, char **argv)
@@ -24,7 +34,7 @@ int argc_parsing(int argc, char **argv)
 	int fd;
 	int i;
 	int flag;
-	
+
 	if (argc <= 1)
 	{
 		fd = open("a.out", O_RDONLY);
@@ -49,7 +59,7 @@ int argc_parsing(int argc, char **argv)
 			if(flag != -1)
 			{
 				// DO THE PROCESSING HERE
-				printf("processing: %s\n", argv[i]);
+				//printf("processing: %s\n", argv[i]);
 				if(processing(argc, argv, fd) == -1)
 					return(-1);	
 			}
@@ -58,4 +68,5 @@ int argc_parsing(int argc, char **argv)
 			i++;
 		}
 	}
+	return(0);
 }

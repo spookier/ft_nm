@@ -2,5 +2,7 @@
 
 int main(int argc, char **argv)
 {
-	argc_parsing(argc, argv);
+	if (argc_parsing(argc, argv) == -1)
+		return(-1);
+	printf("end of program\n");
 }
