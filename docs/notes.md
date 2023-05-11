@@ -62,4 +62,28 @@
 >
 ---
 
-- so i need to parse something..
+
+
+- void *mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offset);
+
+>Here's an explanation of each argument:
+
+>void *addr: This is the desired starting address of the mapped region in the process's address space. If this argument is set to NULL, the operating system will choose the address. It's common practice to set this argument to NULL unless there's a specific reason to control the mapping address.
+
+size_t length: This specifies the length (in bytes) of the region that will be mapped into the address space. When mapping a file, this should be equal to or less than the file size.
+
+>int prot: This argument defines the protection level for the mapped memory region. It can be a combination of the following flags:
+
+>PROT_NONE: The region cannot be accessed.
+PROT_READ: The region can be read.
+PROT_WRITE: The region can be written.
+PROT_EXEC: The region can be executed.
+int flags: This argument provides additional options for the memory mapping. The most common flags are:
+
+>MAP_SHARED: The mapping is shared between processes. Any changes made to the mapped region are visible to other processes that share the same mapping and are written back to the underlying file.
+MAP_PRIVATE: The mapping is private to the process. Any changes made to the mapped region are not visible to other processes and are not written back to the underlying file. Instead, the system creates a private copy-on-write mapping, which means that any modifications to the mapped region are made in a private copy of the memory region and not in the shared file.
+int fd: This is the file descriptor of the file you want to map into memory. You should open the file with the open() function before using mmap().
+
+>off_t offset: This argument specifies the offset (in bytes) from the beginning of the file where the mapping should start. It's common to set this value to 0 to map the entire file from the beginning. Note that the offset must be a multiple of the system page size, which can be determined using sysconf(_SC_PAGESIZE).
+
+mmap returns a pointer to the start of the mapped memory region in the process's address space, or MAP_FAILED (usually defined as (void *)-1) in case of an error.
