@@ -1,12 +1,32 @@
 #include "../../include/ft_nm64.h"
 #include "../../include/ft_nm.h"
 
+// CUSTOM hexdump viewer for debug
+void print_mem(void *mapped_memory, size_t file_size)
+{
+	size_t i;
+	size_t j;
+	unsigned char *data;
 
+	data = (unsigned char *)mapped_memory;
+	i = 0;
+	while (i < file_size)
+	{
+		j = 0;
+		while (j < 16)
+		{
+			printf("%02x ", data[i]);
+			j++;
+			i++;
+		}
+		printf("\n");
+	}
+}
+
+// use mmap to map memory then parse header
 int map_memory(int argc, char **argv, int fd, t_FSTRUCT *fstruct)
 {
 	void *mapped_memory;
-	unsigned char *data;
-	size_t i;
 
 	mapped_memory = mmap(NULL, fstruct->file_size, PROT_READ, MAP_PRIVATE, fd, 0);
 	if(mapped_memory == MAP_FAILED)
@@ -14,20 +34,19 @@ int map_memory(int argc, char **argv, int fd, t_FSTRUCT *fstruct)
 		printf("Error. mmap() failed\n");
 		return(-1);
 	}
-	data = (unsigned char *)mapped_memory;
-	i = 0;
-	while (i < fstruct->file_size)
-	{
-		printf("%02x ", data[i]);
-		i++;
-	}
 
-	//free it with munmap
-	munmap(mapped_memory, fstruct->file_size);
+	// DO THE PARSING PROCESSING HERE
+	print_mem(mapped_memory, fstruct->file_size);
+
+
+	// free memory once parsing is done
+	if(munmap(mapped_memory, fstruct->file_size) == -1)
+		return(-1);
+	return(0);
 }
 
-// save in memory and read the elf file with mmap();
-int get_size(int argc, char **argv, int fd)
+// use fstat to save info about size of file
+int processing(int argc, char **argv, int fd)
 {
 	t_FSTRUCT *fstruct;
 	int status;
@@ -50,14 +69,9 @@ int get_size(int argc, char **argv, int fd)
 	return(0);
 }
 
-int processing(int argc, char **argv, int fd)
-{
-	if(get_size(argc, argv, fd) == -1)
-		return(-1);
-	return(0);
-}
 
-int argc_parsing(int argc, char **argv)
+// start of parsing
+int start_parsing(int argc, char **argv)
 {
 	int fd;
 	int i;
@@ -86,7 +100,7 @@ int argc_parsing(int argc, char **argv)
 			}
 			if(flag != -1)
 			{
-				// DO THE PROCESSING HERE
+				// parsing process starts here
 				if(processing(argc, argv, fd) == -1)
 					return(-1);
 			}
