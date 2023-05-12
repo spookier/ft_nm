@@ -1,8 +1,8 @@
 #include "../../include/ft_nm64.h"
 #include "../../include/ft_nm.h"
 
-// CUSTOM hexdump viewer for debug
-void print_mem(void *mapped_memory, size_t file_size)
+// CUSTOM 16bit hexdump viewer for debug
+void debug_print_mem(void *mapped_memory, size_t file_size)
 {
 	size_t i;
 	size_t j;
@@ -35,10 +35,13 @@ int map_memory(int argc, char **argv, int fd, t_FSTRUCT *fstruct)
 		return(-1);
 	}
 
+	//---------------------------------
 	// DO THE PARSING PROCESSING HERE
-	print_mem(mapped_memory, fstruct->file_size);
 
+	debug_print_mem(mapped_memory, fstruct->file_size);
+	
 
+	//---------------------------------
 	// free memory once parsing is done
 	if(munmap(mapped_memory, fstruct->file_size) == -1)
 		return(-1);
