@@ -2,7 +2,4 @@
 *.o
 *.so
 *.a
-/ft_nm/bin/ft_nm
-/ft_nm/bin/binary
-/ft_nm/bin/a.out
-/ft_nm/bin/a.txt
+/ft_nm/bin/*
