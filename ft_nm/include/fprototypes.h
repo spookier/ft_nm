@@ -1,16 +1,19 @@
 #ifndef FPROTOTYPES_H
 # define FPROTOTYPES_H
 
-int start_parsing(int argc, char **argv);
+//replace with my printf
+#include <stdio.h>
 
-// ELF64 header parsing
-int e_64hdr_parse(void *mapped_memory, size_t size);
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/mman.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <stdlib.h>
+
+int start_parsing(int argc, char **argv);
 
 
 // ----------------
-
-// ELF32 HEADER PARSING;
-int e_32hdr_parse(void *mapped_memory, size_t size);
-
 
 #endif

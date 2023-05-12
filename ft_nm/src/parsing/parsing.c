@@ -1,4 +1,3 @@
-#include "../../include/ft_nm64.h"
 #include "../../include/ft_nm.h"
 
 // @DEBUG - CUSTOM 16bit hexdump viewer for debug (endianness of --C option)
@@ -23,29 +22,64 @@ static void debug_print_mem(void *mapped_memory, size_t file_size)
 	}
 }
 
+static void *alloc_struct(size_t struct_size)
+{
+    void *mem = malloc(struct_size);
+    if (!mem) 
+	{
+        printf("Error. Memory allocation failed\n");
+        return (NULL);
+    }
+    return (mem);
+}
+
 
 // TO DO:
 // - OPTIMIZATION: check if file->size is at least min size of an ELF file
 // - OPTIMIZATION: remove multiple typecasts conversions && unsigned char *mem;
+// - FIX is_32_or_64() function
 
-// FIX is_32_or_64() function
 
-static int is_32_or_64(void *mapped_memory)
+static int is_32_or_64(void *mapped_memory, t_FSTRUCT *fstruct)
 {
 	unsigned char *mem;
+	t_data64 *e_64;
+	t_data32 *e_32;
 
-
-	printf("HEXA = %02x ", mem[4]);
 	mem = (unsigned char *)mapped_memory;
 	if (mem[4] == 0x01)
-		return(32);
+	{
+		e_32 = alloc_struct(sizeof(t_data32));
+		if(!e_32)
+			return(-1);
+		// TO DO: Set ident_e to 0x01 to the elf32 header
+		// TO DO: Error checking of function
+		e_32->file_size = fstruct->file_size;
+
+		
+		e_32hdr_parse(mapped_memory, e_32);
+
+		free(e_32);
+	}
 	else if (mem[4] == 0x02)
-		return(64);
+	{
+		e_64 = alloc_struct(sizeof(t_data64));
+		if(!e_64)
+			return(-1);
+		e_64->file_size = fstruct->file_size;
+		e_64->e_64_Hdr.e_ident[4] = 0x02;
+
+		// TO DO: Error checking of function
+		e_64hdr_parse(mapped_memory, e_64);
+
+		free(e_64);
+	}
 	else
 		return(-1);
+	return(0);
 }
 
-// checks if its a valid ELF 64 file by comparing each hexa value
+// Checks valid ELF 64 file by comparing each hexa value with stored value
 static int is_valid_elf_file(void *mapped_memory)
 {
 	unsigned char *mem;
@@ -65,8 +99,7 @@ static int is_valid_elf_file(void *mapped_memory)
 }
 
 
-
-// use mmap() to map memory then parse header
+// Use mmap() to map memory then validity of ELF -> splitting -> parsing
 static int map_memory(int argc, char *argv, int fd, t_FSTRUCT *fstruct)
 {
 	void *mapped_memory;
@@ -77,50 +110,42 @@ static int map_memory(int argc, char *argv, int fd, t_FSTRUCT *fstruct)
 		printf("Error. mmap() failed\n");
 		return(-1);
 	}
-
 	// ---------------------------------
-	// DO THE PARSING PROCESSING HERE
-
+	// PROCESSING STARTS HERE
 
 	//debug_print_mem(mapped_memory, fstruct->file_size);
+
 	if (is_valid_elf_file(mapped_memory) == -1)
 	{
 		printf("nm: %s: file format not recognized\n", argv);
 		return(-1);
 	}
-	// Program flows to 2 different paths -> 64 or 32 BASED on ret value
-	if (is_32_or_64(mapped_memory) == -1)
+
+	// Program splits into 2 different paths from here -> 32 or 64
+	if (is_32_or_64(mapped_memory, fstruct) == -1)
 	{
 		printf("Error. Unknown class\n");
 		return(-1);
 	}
-	else if (is_32_or_64(map_memory) == 32)
-		e_32hdr_parse(mapped_memory, fstruct->file_size);
-	else if (is_32_or_64(map_memory) == 64)
-		e_64hdr_parse(map_memory, fstruct->file_size);
-
-	//printf("[OK] - %s\n", argv);
-
 	// ---------------------------------
 	// free memory once parsing is done
-	printf("we done here!\n");
 	if(munmap(mapped_memory, fstruct->file_size) == -1)
 		return(-1);
 	return(0);
 }
 
-// use fstat to save info about size of file
+
+
+// Use fstat() to retrieve file's size
 static int processing(int argc, char *argv, int fd)
 {
 	t_FSTRUCT *fstruct;
 	int status;
 
-    fstruct = malloc(sizeof(struct stat));
+    //fstruct = malloc(sizeof(struct stat));
+    fstruct = alloc_struct(sizeof(struct stat));
 	if(!fstruct)
-	{
-		printf("Error. malloc() failled to allocate\n");
 		return(-1);
-	}
 	status = fstat(fd, (struct stat *)fstruct);
 	if(status == -1)
 	{
@@ -134,7 +159,7 @@ static int processing(int argc, char *argv, int fd)
 }
 
 
-// start of parsing
+// Starts here
 int start_parsing(int argc, char **argv)
 {
 	int fd;

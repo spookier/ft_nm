@@ -1,28 +1,13 @@
 #ifndef FT_NM_H
 # define FT_NM_H
 
-//replace with my printf
-#include <stdio.h>
-
-#include <fcntl.h>
-#include <unistd.h>
-#include <sys/mman.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <stdlib.h>
-
-#include "fprototypes.h"
+#include "ft_nm64.h"
+#include "ft_nm32.h"
 
 
-typedef struct s_data
-{
-    off_t file_size;
 
-} t_data;
-
-
-// my custom stat struct for fstat
-// must allocate sizeof(struct stat) when used
+// Custom "stat struct" for fstat()
+// MUST ALLOC sizeof(struct stat) WHEN USED !
 typedef struct s_FSTRUCT 
 {
     dev_t       device_id;
@@ -39,6 +24,7 @@ typedef struct s_FSTRUCT
     time_t      last_modification_time;
     time_t      last_status_change_time;
 } t_FSTRUCT;
+
 
 
 #endif

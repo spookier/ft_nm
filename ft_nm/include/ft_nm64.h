@@ -1,7 +1,7 @@
 #ifndef FT_NM_H_64
 # define FT_NM_H_64
 
-#include "ft_nm.h"
+#include "fprototypes.h"
 
 # define EI_NIDENT 16
 typedef __uint64_t		ELF64_Addr;
@@ -9,6 +9,7 @@ typedef __uint16_t		ELF64_Halfword;
 typedef __uint64_t		ELF64_Offset;
 typedef __uint32_t		ELF64_Word;
 typedef __uint64_t		ELF64_Xword;
+
 
 typedef struct s_ELF64_Header
 {
@@ -44,6 +45,19 @@ typedef struct s_ELF64_SectionHeader
 	ELF64_Xword		sh_entsize;	 
 
 } t_ELF64_SectionHeader;
+
+
+typedef struct s_data64
+{
+    t_ELF64_Header e_64_Hdr;
+    t_ELF64_SectionHeader e_64_Shdr;
+	off_t file_size;
+
+} t_data64;
+
+
+// ELF64 Header Parsing function
+int e_64hdr_parse(void *mapped_memory, t_data64 *data);
 
 
 #endif
