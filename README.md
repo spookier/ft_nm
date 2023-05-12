@@ -7,8 +7,11 @@
 
 ---
 
-#### - bruh why would u ever code this thing
-> understanding binary internals, structure of ELF files, gives u valuable skills in diff cybersecurity domains such as reverse-engineering, exploit development, malware analysis, vulnerability analysis, pentesting
+ 
+#### - bruh why would u ever code this thing...
+> - good cybersecurity starting point for someone with basic understanding of C and low-level concepts
+> - understanding binary internals, structure of ELF files, gaining valuable skills in diff security domains like reverse-engineering, exploit development, malware analysis, vulnerability analysis and pentesting
 
+ <br>
  
 - [PROJECT NOTES](../main/docs/notes.md)
