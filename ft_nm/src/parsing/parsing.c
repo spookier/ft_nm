@@ -113,7 +113,9 @@ static int map_memory(int argc, char *argv, int fd, t_FSTRUCT *fstruct)
 	// ---------------------------------
 	// PROCESSING STARTS HERE
 
+	// @DEBUG - memory print
 	//debug_print_mem(mapped_memory, fstruct->file_size);
+	//printf("-----------------------\n\n");
 
 	if (is_valid_elf_file(mapped_memory) == -1)
 	{
