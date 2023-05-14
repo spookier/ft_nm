@@ -91,3 +91,7 @@ int fd: This is the file descriptor of the file you want to map into memory. You
 ---
 
 > e_shoff from Header file: This field contains the file offset (i.e., the number of bytes from the beginning of the file) at which the section header table starts
+
+- Symbol table
+![image](https://github.com/spookier/ft_nm/assets/77325667/d9e4a01f-78d7-4151-8485-fb251b1c5d5c)
+
