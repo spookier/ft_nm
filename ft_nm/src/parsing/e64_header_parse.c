@@ -49,6 +49,7 @@ static int p_version(unsigned char *mem, t_data64 *data, size_t *i, size_t max)
     *i += max;  // advance i by max bytes
     return (0);
 }
+
 static int p_entry(unsigned char *mem, t_data64 *data, size_t *i, size_t max)
 {
     ft_memcpy(&data->e_64_Hdr.e_entry, mem + *i, sizeof(ELF64_Addr));
@@ -76,6 +77,7 @@ static int p_flags(unsigned char *mem, t_data64 *data, size_t *i, size_t max)
     *i += max;  // advance i by max bytes
     return (0);
 }
+
 static int p_ehsize(unsigned char *mem, t_data64 *data, size_t *i, size_t max)
 {
     ft_memcpy(&data->e_64_Hdr.e_ehsize, mem + *i, sizeof(ELF64_Halfword));
@@ -118,22 +120,40 @@ static int p_shstrndx(unsigned char *mem, t_data64 *data, size_t *i, size_t max)
     return (0);
 }
 
-
 static void print_everything(t_data64 *data)
 {
-    printf("type: %d\n", data->e_64_Hdr.e_type);
-    printf("machine: %d\n", data->e_64_Hdr.e_machine);
-    printf("version: %d\n", data->e_64_Hdr.e_version);
-    printf("entry: %lu\n", data->e_64_Hdr.e_entry);
-    printf("phoff: %lu\n", data->e_64_Hdr.e_phoff);
-    printf("shoff: %lu\n", data->e_64_Hdr.e_shoff);
-    printf("flags: %d\n", data->e_64_Hdr.e_flags);
-    printf("ehsize: %d\n", data->e_64_Hdr.e_ehsize);
-    printf("phentsize: %d\n", data->e_64_Hdr.e_phentsize);
-    printf("phnum: %d\n", data->e_64_Hdr.e_phnum);
-    printf("shentsize: %d\n", data->e_64_Hdr.e_shentsize);
-    printf("shnum: %d\n", data->e_64_Hdr.e_shnum);
-    printf("shstrndx: %d\n", data->e_64_Hdr.e_shstrndx);
+    printf("\n-----------E*IDENT-------------------\n");
+    // Magic numbers (should be 0x7f, 'E', 'L', 'F')
+    printf("Magic numbers: %02X %c %c %c\n", 
+           data->e_64_Hdr.e_ident[0], 
+           data->e_64_Hdr.e_ident[1], 
+           data->e_64_Hdr.e_ident[2], 
+           data->e_64_Hdr.e_ident[3]); 
+    // File class (1 for 32-bit, 2 for 64-bit)
+    printf("Class 32/64-bit: %d\n", data->e_64_Hdr.e_ident[4]);  
+    // Endianness (1 for little endian, 2 for big endian)
+    printf("Endian: %d\n", data->e_64_Hdr.e_ident[5]);  
+    printf("Version: %d\n", data->e_64_Hdr.e_ident[6]); 
+    printf("OS/ABI: %d\n", data->e_64_Hdr.e_ident[7]);
+    // ABI version
+    printf("ABI Version: %d\n", data->e_64_Hdr.e_ident[8]);  
+    printf("---------------------------------------\n\n");
+
+
+
+    printf("File type: %d\n", data->e_64_Hdr.e_type);  // File type (e.g. relocatable, executable)
+    printf("Architecture: %d\n", data->e_64_Hdr.e_machine);  // Machine type (e.g. x86, ARM)
+    printf("Version: %d\n", data->e_64_Hdr.e_version);  // ELF specification version
+    printf("Entry point: %lu\n", data->e_64_Hdr.e_entry);  // Start address for the program
+    printf("Prog. header offset: %lu\n", data->e_64_Hdr.e_phoff);  // Offset to program header table
+    printf("Sect. header offset: %lu\n", data->e_64_Hdr.e_shoff);  // Offset to section header table
+    printf("Flags: %d\n", data->e_64_Hdr.e_flags);  // Processor-specific flags
+    printf("ELF header size: %d\n", data->e_64_Hdr.e_ehsize);  // Size of this header
+    printf("Prog. header entry size: %d\n", data->e_64_Hdr.e_phentsize);  // Size of a program header table entry
+    printf("Prog. header entries: %d\n", data->e_64_Hdr.e_phnum);  // Number of program header table entries
+    printf("Size per section: %d\n", data->e_64_Hdr.e_shentsize);  // Size of a section header table entry
+    printf("Number of sections: %d\n", data->e_64_Hdr.e_shnum);  // Number of section header table entries
+    printf("Section header string table index: %d\n", data->e_64_Hdr.e_shstrndx);  // Index of the section name string table
 }
 
 int e_64hdr_parse(void *mapped_memory, t_data64 *data)
@@ -144,7 +164,7 @@ int e_64hdr_parse(void *mapped_memory, t_data64 *data)
 	i = 0;
 	mem = (unsigned char *)mapped_memory;
 
-	printf("\ndetected 64bit!\n\n");
+	printf("- File is 64BIT\n");
 
     p_ident(mem, data, &i,     sizeof(unsigned char) * 16);
     p_type(mem, data, &i,      sizeof(ELF64_Halfword));
@@ -161,9 +181,8 @@ int e_64hdr_parse(void *mapped_memory, t_data64 *data)
     p_shnum(mem, data, &i,      sizeof(ELF64_Halfword));
     p_shstrndx(mem, data, &i,   sizeof(ELF64_Halfword));
 
-
+    // @DEBUG all header
     print_everything(data);
-    // @DEBUG
 
 
 	printf("\n");
