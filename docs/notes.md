@@ -64,13 +64,13 @@
 
 
 
-- void *mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offset);
+> - void *mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offset);
 
 >Here's an explanation of each argument:
 
 >void *addr: This is the desired starting address of the mapped region in the process's address space. If this argument is set to NULL, the operating system will choose the address. It's common practice to set this argument to NULL unless there's a specific reason to control the mapping address.
 
-size_t length: This specifies the length (in bytes) of the region that will be mapped into the address space. When mapping a file, this should be equal to or less than the file size.
+> size_t length: This specifies the length (in bytes) of the region that will be mapped into the address space. When mapping a file, this should be equal to or less than the file size.
 
 >int prot: This argument defines the protection level for the mapped memory region. It can be a combination of the following flags:
 
@@ -86,4 +86,8 @@ int fd: This is the file descriptor of the file you want to map into memory. You
 
 >off_t offset: This argument specifies the offset (in bytes) from the beginning of the file where the mapping should start. It's common to set this value to 0 to map the entire file from the beginning. Note that the offset must be a multiple of the system page size, which can be determined using sysconf(_SC_PAGESIZE).
 
-mmap returns a pointer to the start of the mapped memory region in the process's address space, or MAP_FAILED (usually defined as (void *)-1) in case of an error.
+>mmap returns a pointer to the start of the mapped memory region in the process's address space, or MAP_FAILED (usually defined as (void *)-1) in case of an error.
+
+---
+
+> e_shoff from Header file: This field contains the file offset (i.e., the number of bytes from the beginning of the file) at which the section header table starts
