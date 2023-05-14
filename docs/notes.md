@@ -95,3 +95,15 @@ int fd: This is the file descriptor of the file you want to map into memory. You
 - Symbol table
 ![image](https://github.com/spookier/ft_nm/assets/77325667/d9e4a01f-78d7-4151-8485-fb251b1c5d5c)
 
+>
+>let's imagine you have a big book with lots of words written in it. Now, sometimes you may want to find out more information about a specific word in that book, like what it means or how it's used. A symbol table is like a special tool that helps you keep track of all the important words in the book and their related information.
+>
+>So, let's say you want to know about the word "cat." You look it up in the symbol table, and it tells you that "cat" is a noun, and it's a small, furry animal that people often keep as pets. It also tells you that "cat" is spelled with a "c," an "a," and a "t."
+>
+>Similarly, in computer programs, there are lots of words called "symbols" that have special meanings, like the names of variables, functions, or constants. Just like the word "cat," these symbols need to be kept track of, so the computer knows what they mean and how to use them correctly.
+>
+>A symbol table in a computer program is like a special book that keeps track of all these symbols. For each symbol, it stores information about what it represents, like its name, its type (whether it's a number, a piece of text, or something else), and where it appears in the program's instructions.
+>
+>When a computer program is being translated from human-readable code into a language that the computer can understand, like machine code, the translator (which is usually a compiler or interpreter) uses the symbol table to look up the symbols and figure out what they mean. It helps the translator understand how to correctly read and execute the program.
+>
+>So, in simple terms, a symbol table is like a special tool that helps a computer program understand and keep track of important words (or symbols) and their meanings, just like you would use a dictionary to understand and find information about words in a book.

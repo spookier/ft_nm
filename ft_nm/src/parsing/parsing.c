@@ -22,6 +22,10 @@ static void debug_print_mem(void *mapped_memory, size_t file_size)
 	}
 }
 
+
+
+
+
 static void *alloc_struct(size_t struct_size)
 {
     void *mem = malloc(struct_size);
@@ -52,6 +56,7 @@ static int is_32_or_64(void *mapped_memory, t_FSTRUCT *fstruct)
 		e_32 = alloc_struct(sizeof(t_data32));
 		if(!e_32)
 			return(-1);
+		
 		// TO DO: Set ident_e to 0x01 to the elf32 header
 		// TO DO: Error checking of function
 		e_32->file_size = fstruct->file_size;
@@ -71,7 +76,7 @@ static int is_32_or_64(void *mapped_memory, t_FSTRUCT *fstruct)
 
 		// TO DO: Error checking of function
 		e_64hdr_parse(mapped_memory, e_64);
-
+		e_64Shdr_parse( mapped_memory, e_64);
 		free(e_64);
 	}
 	else
