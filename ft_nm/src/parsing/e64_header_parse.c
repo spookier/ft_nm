@@ -143,16 +143,16 @@ static void print_everything(t_data64 *data)
 
     printf("File type: %d\n", data->e_64_Hdr.e_type);  // File type (e.g. relocatable, executable)
     printf("Architecture: %d\n", data->e_64_Hdr.e_machine);  // Machine type (e.g. x86, ARM)
-    printf("Version: %d\n", data->e_64_Hdr.e_version);  // ELF specification version
-    printf("Entry point: %lu\n", data->e_64_Hdr.e_entry);  // Start address for the program
-    printf("Prog. header offset: %lu\n", data->e_64_Hdr.e_phoff);  // Offset to program header table
-    printf("Sect. header offset: %lu\n", data->e_64_Hdr.e_shoff);  // Offset to section header table
-    printf("Flags: %d\n", data->e_64_Hdr.e_flags);  // Processor-specific flags
-    printf("ELF header size: %d\n", data->e_64_Hdr.e_ehsize);  // Size of this header
-    printf("Prog. header entry size: %d\n", data->e_64_Hdr.e_phentsize);  // Size of a program header table entry
-    printf("Prog. header entries: %d\n", data->e_64_Hdr.e_phnum);  // Number of program header table entries
-    printf("Size per section: %d\n", data->e_64_Hdr.e_shentsize);  // Size of a section header table entry
-    printf("Number of sections: %d\n", data->e_64_Hdr.e_shnum);  // Number of section header table entries
+    printf("ELF Version: %d\n", data->e_64_Hdr.e_version);  // ELF specification version
+    printf("Entry point / Start address: %lu\n", data->e_64_Hdr.e_entry); 
+    printf("Offset to program header table: %lu\n", data->e_64_Hdr.e_phoff);  
+    printf("Offset to section header table: %lu\n", data->e_64_Hdr.e_shoff);  
+    printf("Flags: %d\n", data->e_64_Hdr.e_flags);  
+    printf("ELF header size: %d\n", data->e_64_Hdr.e_ehsize);  
+    printf("Size of a program header table entry: %d\n", data->e_64_Hdr.e_phentsize); 
+    printf("Nbs of program header entries: %d\n", data->e_64_Hdr.e_phnum); 
+    printf("Size of a section header: %d\n", data->e_64_Hdr.e_shentsize);  
+    printf("Nbs of sections headers: %d\n", data->e_64_Hdr.e_shnum);  
     printf("Section header string table index: %d\n", data->e_64_Hdr.e_shstrndx);  // Index of the section name string table
 }
 

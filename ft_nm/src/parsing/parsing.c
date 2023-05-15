@@ -60,10 +60,7 @@ static int is_32_or_64(void *mapped_memory, t_FSTRUCT *fstruct)
 		// TO DO: Set ident_e to 0x01 to the elf32 header
 		// TO DO: Error checking of function
 		e_32->file_size = fstruct->file_size;
-
-		
 		e_32hdr_parse(mapped_memory, e_32);
-
 		free(e_32);
 	}
 	else if (mem[4] == 0x02)
@@ -74,9 +71,9 @@ static int is_32_or_64(void *mapped_memory, t_FSTRUCT *fstruct)
 		e_64->file_size = fstruct->file_size;
 		e_64->e_64_Hdr.e_ident[4] = 0x02;
 
-		// TO DO: Error checking of function
+		// TO DO: Error checking of functions
 		e_64hdr_parse(mapped_memory, e_64);
-		e_64Shdr_parse( mapped_memory, e_64);
+		e_64Shdr_parse(mapped_memory, e_64);
 		free(e_64);
 	}
 	else

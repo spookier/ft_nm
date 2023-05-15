@@ -10,7 +10,6 @@ typedef __uint64_t		ELF64_Offset; 	// 8 bytes
 typedef __uint32_t		ELF64_Word; 	// 4 bytes
 typedef __uint64_t		ELF64_Xword; 	// 8 bytes
 
-
 typedef struct s_ELF64_Header
 {
 	unsigned char	e_ident[EI_NIDENT];
@@ -49,11 +48,25 @@ typedef struct s_ELF64_SectionHeader
 
 typedef struct s_data64
 {
-    t_ELF64_Header e_64_Hdr;
-    t_ELF64_SectionHeader e_64_Shdr;
-	off_t file_size;
+    t_ELF64_Header 			e_64_Hdr;
+    t_ELF64_SectionHeader 	*e_64_Shdr;
+	off_t 					file_size;
+	char 					*sh_strTable;
 
 } t_data64;
+
+
+
+// typedef struct s_ELF64_SymbolTable
+// {
+//     ELF64_Word      		st_name;
+//     ELF64_Offset      	st_value;
+//     ELF64_Offset      	st_size;
+//     unsigned char 		st_info;
+//     unsigned char 		st_other;
+//     ELF64_Halfword      	st_shndx;
+
+// } t_ELF64_SymbolTable;
 
 
 // ELF64 Header Parsing 
