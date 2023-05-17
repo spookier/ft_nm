@@ -1,4 +1,6 @@
-.vscode
+.gitignore
+.vscode/*
+!.vscode/launch.json
 *.o
 *.so
 *.a
