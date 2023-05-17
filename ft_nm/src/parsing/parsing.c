@@ -23,9 +23,6 @@ static void debug_print_mem(void *mapped_memory, size_t file_size)
 }
 
 
-
-
-
 static void *alloc_struct(size_t struct_size)
 {
     void *mem = malloc(struct_size);

@@ -164,7 +164,7 @@ int e_64hdr_parse(void *mapped_memory, t_data64 *data)
 	i = 0;
 	mem = (unsigned char *)mapped_memory;
 
-	printf("- File is 64BIT\n");
+	//printf("- File is 64BIT\n");
 
     p_ident(mem, data, &i,     sizeof(unsigned char) * 16);
     p_type(mem, data, &i,      sizeof(ELF64_Halfword));
@@ -182,9 +182,7 @@ int e_64hdr_parse(void *mapped_memory, t_data64 *data)
     p_shstrndx(mem, data, &i,   sizeof(ELF64_Halfword));
 
     // @DEBUG all header
-    print_everything(data);
+    //print_everything(data);
 
-
-	printf("\n");
 	return (0);
 }

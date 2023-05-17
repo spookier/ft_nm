@@ -3,6 +3,12 @@
 
 #include "libraries.h"
 
+/* Macros for accessing the fields of st_info. */
+#define SHN_UNDEF	0
+#define	ELF64_ST_BIND(info)		((info) >> 4)
+#define	ELF64_ST_TYPE(info)		((info) & 0xf)
+
+
 # define EI_NIDENT 16
 typedef __uint64_t		ELF64_Addr;		// 8 bytes
 typedef __uint16_t		ELF64_Halfword; // 2 bytes
@@ -38,7 +44,7 @@ typedef struct s_ELF64_SectionHeader
 	ELF64_Addr		sh_addr;	
 	ELF64_Offset	sh_offset;	
 	ELF64_Xword		sh_size;	
-	ELF64_Word		sh_link;	
+	ELF64_Word		sh_link;
 	ELF64_Word		sh_info;	
 	ELF64_Xword		sh_addralign;	
 	ELF64_Xword		sh_entsize;	 
@@ -46,27 +52,32 @@ typedef struct s_ELF64_SectionHeader
 } t_ELF64_SectionHeader;
 
 
+typedef struct s_ELF64_Sym 
+{
+  ELF64_Word 		st_name;		
+  unsigned char		st_info;	
+  unsigned char		st_other;	
+  ELF64_Halfword 	st_shndx;		
+  ELF64_Addr 		st_value;		
+  ELF64_Xword 		st_size;
+
+} t_ELF64_Sym;
+
+
 typedef struct s_data64
 {
     t_ELF64_Header 			e_64_Hdr;
     t_ELF64_SectionHeader 	*e_64_Shdr;
+	t_ELF64_Sym				*e_64_Sym;
 	off_t 					file_size;
 	char 					*sh_strTable;
+	char 					*st_symTable;
+	int						nb_symbols;
+	int						sym_string_index;			
 
 } t_data64;
 
 
-
-// typedef struct s_ELF64_SymbolTable
-// {
-//     ELF64_Word      		st_name;
-//     ELF64_Offset      	st_value;
-//     ELF64_Offset      	st_size;
-//     unsigned char 		st_info;
-//     unsigned char 		st_other;
-//     ELF64_Halfword      	st_shndx;
-
-// } t_ELF64_SymbolTable;
 
 
 // ELF64 Header Parsing 
