@@ -9,10 +9,11 @@
 
  
 #### - bruh why would u ever recode this thing...
-> - understanding binary internals + structure of ELF files + fundamental understanding how executables work
-> - gaining skillz in diff security domains like reverse-engineering, exploit development, malware analysis and vulnerability analysis
-> - getting familiar with Linux Documentation.. you would likely need to research man pages, technical specifications and source code from 1971
+ - understanding binary internals + structure of ELF files + fundamental understanding how executables work
+ - gaining skillz in diff security domains like reverse-engineering, exploit development, malware analysis and vulnerability analysis
+ - getting familiar with Linux Documentation.. you would likely need to research man pages, technical specifications and source code from 1971
 
  <br>
  
-- [PROJECT NOTES](../main/docs/notes.md)
+
+- [PROJECT REFERENCES](../main/docs/ressources.md)
