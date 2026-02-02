@@ -5,13 +5,18 @@ void handle64(void *memorymap)
     // Cast the raw pointer to an ELF header pointer
     Elf64_Ehdr *header;
     Elf64_Shdr *sectionheader;
+    Elf64_Sym *symboltable;
+    
+
+    int i;
+    int symbol_count;
+    char *sym_stringtable;
 
     header = (Elf64_Ehdr *)memorymap; 
     
     // Mapping is 1:1 to an Elf64_Ehdr struct
     // e.g: header->e_shoff
     
-
     // We now need the Section Header
     // So we do: "Go to that address and treat this location as the start of a Elf64_Shdr struct"
     
@@ -24,24 +29,61 @@ void handle64(void *memorymap)
     // because there are many Section Headers (for .text, .data, .rodata ...etc) we need to iterate until we find the correct one
     // the correct one has its sectionheader->sh_type == SHT_SYMTAB
     // we can get the number of Section Headers from header->e_shnum
-   
-    for(int i = 0; i < header->e_shnum; ++i)
+    
+    i = 0;
+    while(i < header->e_shnum)
     {
         if (sectionheader[i].sh_type == SHT_SYMTAB)
-            printf("Found at %d\n", i);
+        {
+            break ;         // We instantly break to save in i where we found SHT_SYMTAB
+        }
+        i++;
     }
-    
+
     // Writing sectionheader[i] = the same as *(sectionheader + i))
     // Since Elf64_Shdr size is ~64 bytes
     // Adding 1 (or incrementing i) automatically moves the pointer forward by 64 bytes
     // ---> sectionheader[0] starts at offset 0
     // ---> sectionheader[1] starts at offset 64
     // ---> sectionheader[2] starts at offset 128
-
+    
     // Can be verified with "readelf -S"
 
+    // We now need ->sh_offset to find where the Symbol Table starts
+    
+    symboltable = (Elf64_Sym *)((unsigned char *)memorymap + sectionheader[i].sh_offset); 
+    
+    // Now we know where the Symbol Table starts (where the first symbol starts)
+    // This is also an array(list of symbols), so to print them we need a limit
+    // ->sh_size = TOTAL size of this section in bytes
+    // ->sh_entsize = the size of a SINGLE individual symbol
+   
 
-        
+    // We check for divison by 0 incase a value is 0
+    if (sectionheader[i].sh_size == 0 || sectionheader[i].sh_entsize == 0)
+    {
+        printf("Division by 0 error. Exiting.");
+        return;
+    }
+    else
+    {
+        symbol_count = sectionheader[i].sh_size / sectionheader[i].sh_entsize;
+        printf("Number of symbols %d\n", symbol_count);
+    }
 
-     
+    // Now that we have the count, we can print the name of each symbol with ->st_name
+    // But there's a catch !
+    // ->st_name is just an offset/index in a completely different section called the String Table
+    // We must first find where String Table starts in memory and add this offset
+
+    // sectionheader[i].sh_link = The index of the String Table section header
+    
+    int stringtable_index = sectionheader[i].sh_link;
+
+    // Now we know the String Table for our current Symbol Table section starts at sectionheader[stringtable_index]
+
+    sym_stringtable = (char *)((unsigned char *)memorymap + sectionheader[stringtable_index].sh_offset);
+    printf("Str table: %s\n", sym_stringtable + 1);
+
+    (void)symboltable;
 }
