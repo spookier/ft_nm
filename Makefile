@@ -1,31 +1,29 @@
-NAME		= ft_nm
-CC		= cc
-CFLAGS		= -Wall -Werror -Wextra -g3
+NAME = ft_nm
+CC = cc
+CFLAGS = -Wall -Werror -Wextra -g3
+SRC = ./srcs/
+INCS_DIR = ./incs
 
-SRC		= ./srcs/
-INCS_DIR	= ./incs
+FILES = $(SRC)main.c \
+		$(SRC)init.c \
+		$(SRC)handle64.c \
 
-INCS		= $(INCS_DIR)/ft_nm.h
+OBJ_FILES = $(FILES:.c=.o)
 
-FILES		= $(SRC)main.c \
-
-OBJ_FILES	= $(FILES:.c=.o)
-
-.c.o: $(INCS)
-			$(CC) $(CFLAGS) -c -o $@ $< -I $(INCS_DIR)
+.c.o:
+		$(CC) $(CFLAGS) -c -o $@ $< -I $(INCS_DIR)
 
 all: $(NAME)
 
 $(NAME): $(OBJ_FILES)
-			$(CC) $(CFLAGS) $(OBJ_FILES) -o $(NAME) -I $(INCS_DIR)
+		$(CC) $(CFLAGS) $^ -o $@ 
 
 clean:
-			rm -rf $(OBJ_FILES)
+		rm -rf $(OBJ_FILES)
 
 fclean: clean
-			rm -rf $(NAME)
+		rm -rf $(NAME)
 
-re: fclean
-			$(MAKE) all
+re: fclean all
 
 .PHONY: all clean fclean re
