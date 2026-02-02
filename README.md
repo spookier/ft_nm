@@ -3,6 +3,7 @@
 
 Recoding the linux command nm
 
+Lists symbols from ELF object files with no external dependencies
 
 ## References
 https://refspecs.linuxfoundation.org/elf/gabi4+/ch4.eheader.html  
