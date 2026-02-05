@@ -81,9 +81,17 @@ void handle64(void *memorymap)
     int stringtable_index = sectionheader[i].sh_link;
 
     // Now we know the String Table for our current Symbol Table section starts at sectionheader[stringtable_index]
+    
 
-    sym_stringtable = (char *)((unsigned char *)memorymap + sectionheader[stringtable_index].sh_offset);
-    printf("Str table: %s\n", sym_stringtable + 1);
+    // Iterate through all symbols and print them
+    int j = 0;
+    while(j < symbol_count)
+    {
+        sym_stringtable = (char *)((unsigned char *)memorymap + sectionheader[stringtable_index].sh_offset);
+        printf("%s\n", sym_stringtable + symboltable[j].st_name);
+        j++;
+    }
+
 
     (void)symboltable;
 }
