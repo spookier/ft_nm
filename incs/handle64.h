@@ -19,7 +19,6 @@ typedef uint64_t    Elf64_Xword;
 
 
 
-
 // --------------------------------------------------
 // ELF64 HEADER FILE
 #define EI_NIDENT 16

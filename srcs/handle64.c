@@ -81,17 +81,38 @@ void handle64(void *memorymap)
     int stringtable_index = sectionheader[i].sh_link;
 
     // Now we know the String Table for our current Symbol Table section starts at sectionheader[stringtable_index]
+     
+    sym_stringtable = (char *)((unsigned char *)memorymap + sectionheader[stringtable_index].sh_offset);
     
-
     // Iterate through all symbols and print them
+
+    // Print symbol's hexa address + symbol's name
+    char        *symbol_name;
+    Elf64_Addr  hexa_addr; 
     int j = 0;
+
     while(j < symbol_count)
     {
-        sym_stringtable = (char *)((unsigned char *)memorymap + sectionheader[stringtable_index].sh_offset);
-        printf("%s\n", sym_stringtable + symboltable[j].st_name);
-        j++;
-    }
+        symbol_name = sym_stringtable + symboltable[j].st_name;
+        hexa_addr = symboltable[j].st_value;
 
+        // Ensure the symbol has a name before doing anything
+        if (symbol_name[0] != '\0')
+        {
+            if (hexa_addr != 0) 
+            {
+                // Print address + name
+                printf("%016lx %s\n", hexa_addr, symbol_name);
+            } 
+            else 
+            {
+                // Print 16 spaces (padding) + name
+                // %16s with "" prints 16 spaces
+                printf("%16s %s\n", "", symbol_name);
+            }
+        }
+        j++;
+     }
 
     (void)symboltable;
 }
