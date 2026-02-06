@@ -71,9 +71,27 @@ typedef struct
     Elf64_Xword st_size;
 } Elf64_Sym;
 
+
+
+// -------------------------------------------------
+
+// SYMBOL TABLE Type (->st_shndx / ->st_info)
+
+#define SHT_NOBITS  8
+
+#define SHN_UNDEF       0
+#define SHN_ABS		0xfff1
+#define SHN_COMMON	0xfff2
+
+
+// ->sh_flags
+#define SHF_WRITE		0x1
+#define SHF_ALLOC		0x2
+#define SHF_EXECINSTR	0x4
+
+
+
 void handle64(void *memorymap);
-
-
 
 
 #endif

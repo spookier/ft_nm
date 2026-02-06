@@ -9,4 +9,5 @@ Lists symbols from ELF object files with no external dependencies
 https://refspecs.linuxfoundation.org/elf/gabi4+/ch4.eheader.html  
 https://github.com/torvalds/linux/blob/master/include/uapi/linux/elf.h  
 https://man7.org/linux/man-pages/man5/elf.5.html  
-https://web.mit.edu/freebsd/head/sys/sys/elf64.h  
+https://web.mit.edu/freebsd/head/sys/sys/elf64.h
+https://www.uclibc.org/docs/elf-64-gen.pdf

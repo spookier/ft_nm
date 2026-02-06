@@ -1,5 +1,54 @@
 #include "../incs/handle64.h"
 
+
+// We want to know: "Is this symbol in a Text section? A Data section? Or a BSS section?"
+// Tese sections are ID by letters (like 'T' 'D' 'B'). We need to check the section header the symbol belongs to
+// If current_symbol->st_shndx is 3, we need to look at the 3rd item in the sectionheader array
+
+char get_symbol_type(Elf64_Sym *current_symbol, Elf64_Shdr *sectionheader)
+{
+    char symbol_type;
+    Elf64_Shdr *dest_section;
+
+
+    // dest_section = &sectionheader[current_symbol->st_shndx];
+    symbol_type = 'U';
+    if (current_symbol->st_shndx == SHN_UNDEF) // Undefined
+    {
+        symbol_type = 'U';
+    }
+    else if (current_symbol->st_shndx == SHN_ABS)
+    {
+        symbol_type = 'A';
+    }
+    else if (current_symbol->st_shndx == SHN_COMMON)
+    {
+        symbol_type = 'C';
+    }
+    else
+    {
+        dest_section = &sectionheader[current_symbol->st_shndx];
+        if (dest_section->sh_type == SHT_NOBITS) 
+        {
+            symbol_type = 'B';
+        }
+        else if(dest_section->sh_flags & SHF_EXECINSTR)
+        {
+            symbol_type = 'T';
+        }
+        else if(dest_section->sh_flags & SHF_WRITE)
+        {
+            symbol_type = 'D';
+        }
+        else if (dest_section->sh_flags & SHF_ALLOC)
+        {
+            symbol_type = 'R';
+        }
+    }
+    return (symbol_type);
+}
+
+
 void handle64(void *memorymap)
 {
     // Cast the raw pointer to an ELF header pointer
@@ -89,6 +138,7 @@ void handle64(void *memorymap)
     // Print symbol's hexa address + symbol's name
     char        *symbol_name;
     Elf64_Addr  hexa_addr; 
+    char        symbol_type;
     int j = 0;
 
     while(j < symbol_count)
@@ -96,23 +146,24 @@ void handle64(void *memorymap)
         symbol_name = sym_stringtable + symboltable[j].st_name;
         hexa_addr = symboltable[j].st_value;
 
+        symbol_type = get_symbol_type(&symboltable[j], sectionheader);
+
         // Ensure the symbol has a name before doing anything
         if (symbol_name[0] != '\0')
         {
             if (hexa_addr != 0) 
             {
                 // Print address + name
-                printf("%016lx %s\n", hexa_addr, symbol_name);
+                printf("%016lx %c %s\n", hexa_addr, symbol_type,symbol_name);
             } 
             else 
             {
-                // Print 16 spaces (padding) + name
+                // Print 16 spaces (padding) + name to make it look like the real nm
                 // %16s with "" prints 16 spaces
-                printf("%16s %s\n", "", symbol_name);
+                printf("%16s %c %s\n", "", symbol_type, symbol_name);
             }
         }
         j++;
      }
-
-    (void)symboltable;
 }
+
