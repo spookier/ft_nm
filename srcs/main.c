@@ -1,7 +1,9 @@
 #include "handle64.h"
+#include "handle32.h"
 #include "init.h"
-#include <stdio.h>
-#include <sys/mman.h>
+#include "ft_printf.h"
+#include <sys/mman.h>  // mmap, munmap
+
 
 int identify_elf(void *memorymap)
 {
@@ -11,27 +13,34 @@ int identify_elf(void *memorymap)
     // Check if its an ELF file 
     if (*byte != 0x7F || *(byte + 1) != 'E' || *(byte + 2) != 'L' || *(byte + 3) != 'F')
     {
-        printf("Not an ELF file.\n");
+        ft_printf("Not an ELF file.\n");
         return (1);
     }
     
     // Check if 64bit OR 32bit
     if (*(byte + 4) == 1)
     {
-        printf("32bit file\n");
+		if (handle32(memorymap) == -1)
+		{
+			ft_printf("Handle32 fail. \n");
+			return(-1);
+		}
     }
     else if (*(byte + 4) == 2)
     {
-        printf("64bit file\n");
+    	if (handle64(memorymap) == -1)
+		{
+			ft_printf("Handle64 fail. \n");
+			return(-1);
+		}
     }
     else
     {
-        printf("Invalid ELF file. \n");
+        ft_printf("Invalid ELF file. \n");
         return(1);
     }
 
     return (0);
-    
 }
 
 
@@ -42,7 +51,7 @@ int main(int argc, char **argv)
 
     if (argc != 2)
     {
-        printf("Usage: %s <filename>\n", argv[0]);
+        ft_printf("Usage: %s <filename>\n", argv[0]);
         return (-1);
     }
 
@@ -53,7 +62,6 @@ int main(int argc, char **argv)
     if (identify_elf(memorymap) == 1)
         return(1);
     
-    handle64(memorymap);
 
     // Unmap before finishing
     munmap(memorymap, filesize);

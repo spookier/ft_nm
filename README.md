@@ -7,8 +7,10 @@ The file is `mmap`'d in memory and parsed directly
 
 ## Highlights
 
-- Parses ELF64 headers/sections/symbols with `mmap`
+- Supports both **ELF64** (x86_64) and **ELF32** (x86_32) binaries
+- Parses ELF headers, section headers, and symbol tables with `mmap`
 - Prints `nm`-style output: address, type, name (sorted)
+- 64-bit addresses: 16-char hex (`0000000000004ba0`), 32-bit: 8-char hex (`00001234`)
 - Symbol types: `T`, `D`, `B`, `R`, `U`, `A`, `C`, `W` (and local/weak case rules)
 - Bounds checks to avoid crashes on bad inputs
 

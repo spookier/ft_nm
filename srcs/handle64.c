@@ -1,11 +1,7 @@
 #include "handle64.h"
 #include "utils.h"
-#include <stdio.h>
-#include <stdlib.h>
-
-
-// TO DO: Replace every function with libft one
-
+#include "ft_printf.h"
+#include <stdlib.h>     // malloc, free
 
 // We want to know: "Is this symbol in a Text section? A Data section? Or a BSS section?"
 // Tese sections are ID by letters (like 'T' 'D' 'B'). We need to check the section header the symbol belongs to
@@ -16,51 +12,8 @@
 // Uppercase means the symbol is Global (visible to other files)
 // Lowercase means the symbol is Local (only visible inside this file)
 // ->st_info can be 3 options, STB_LOCAL,GLOBAL or WEAK
-void print_symbol(t_symbol *saved_symbols, int symbol_count)
-{
-    
-    // Sort in alphabetic order, selection sort
 
-    int i = 0;  // iterate from start to end
-    int j = 0; // iterate to find min
-    int min_idx = 0;   // remember min pos
-
-    i = 0;
-    while (i < symbol_count) // for all structs
-    {
-        min_idx = i;
-        j = i + 1;
-        while (j < symbol_count)        // test remaining structs
-        {
-            if (nm_strcmp(saved_symbols[min_idx].name, saved_symbols[j].name) > 0)
-            {
-                min_idx = j;
-            }  
-            j++;
-        }
-        if (min_idx != i)
-            swap(&saved_symbols[i], &saved_symbols[min_idx]);
-        i++;
-    }
-
-    // Now print everything
-    i = 0;
-    while (i < symbol_count)
-    {
-        if (saved_symbols[i].value != 0)
-        {
-            printf("%016lx %c %s\n", saved_symbols[i].value, saved_symbols[i].type, saved_symbols[i].name);
-        }
-        else
-        {
-            printf("%16s %c %s\n", "", saved_symbols[i].type, saved_symbols[i].name);
-        }
-        i++;
-    }
-}
-
-
-char get_symbol_type(Elf64_Sym *current_symbol, Elf64_Shdr *sectionheader)
+char get_symbol_type64(Elf64_Sym *current_symbol, Elf64_Shdr *sectionheader)
 {
     char symbol_type;
     Elf64_Shdr *dest_section;
@@ -176,13 +129,13 @@ int handle64(void *memorymap)
     // We check for divison by 0 incase a value is 0
     if (sectionheader[i].sh_size == 0 || sectionheader[i].sh_entsize == 0)
     {
-        printf("Division by 0 error. Exiting.");
+        ft_printf("No symbols.\n");
         return (-1);
     }
     else
     {
         symbol_count = sectionheader[i].sh_size / sectionheader[i].sh_entsize;
-        printf("Number of symbols %d\n", symbol_count);
+        //printf("Number of symbols %d\n", symbol_count);
     }
 
     // Now that we have the count, we can print the name of each symbol with ->st_name
@@ -225,11 +178,11 @@ int handle64(void *memorymap)
             j++;
             continue;
         }
-
+		
         symbol_name = sym_stringtable + symboltable[j].st_name;
         hexa_addr = symboltable[j].st_value;
 
-        symbol_type = get_symbol_type(&symboltable[j], sectionheader);
+        symbol_type = get_symbol_type64(&symboltable[j], sectionheader);
         
         // Ensure the symbol has a name before doing anything
         if (symbol_name[0] != '\0')
@@ -255,7 +208,7 @@ int handle64(void *memorymap)
         }
         j++;
      }
-    print_symbol(saved_symbols, list_index);
+    print_symbol(saved_symbols, list_index, 1);
     free(saved_symbols);
     return (0);
 }
