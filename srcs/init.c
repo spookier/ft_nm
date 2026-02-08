@@ -1,4 +1,9 @@
-#include "../incs/init.h"
+#include "init.h"
+#include <fcntl.h>
+#include <stdio.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 void *init_file_mapping(char *filename, size_t *filesize)
 {
@@ -31,4 +36,3 @@ void *init_file_mapping(char *filename, size_t *filesize)
 
     return (map);
 }
-

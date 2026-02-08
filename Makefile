@@ -7,6 +7,7 @@ INCS_DIR = ./incs
 FILES = $(SRC)main.c \
 		$(SRC)init.c \
 		$(SRC)handle64.c \
+		$(SRC)utils.c \
 
 OBJ_FILES = $(FILES:.c=.o)
 

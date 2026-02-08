@@ -1,7 +1,7 @@
 #ifndef HANDLE64_H
 # define HANDLE64_H
 
-#include "ft_nm.h"
+#include <stdint.h>
 
 // --------------------------------------------------
 
@@ -76,7 +76,6 @@ typedef struct
 // -------------------------------------------------
 
 // SYMBOL TABLE Type (->st_shndx / ->st_info)
-
 #define SHT_NOBITS  8
 
 #define SHN_UNDEF       0
@@ -90,8 +89,23 @@ typedef struct
 #define SHF_EXECINSTR	0x4
 
 
+// ->st_info
+#define STB_LOCAL  0
+#define STB_GLOBAL 1
+#define STB_WEAK   2
 
-void handle64(void *memorymap);
+// ->st_info Type (it's in the lower 4 bits of st_info)
+#define STT_FILE   4
+
+// Macros to extract information from the st_info byte
+// Binding is the upper 4 bits, Type is the lower 4 bits
+#define ELF64_ST_BIND(i) ((i) >> 4)
+#define ELF64_ST_TYPE(i) ((i) & 0xf)
+
+
+// --------------------------------------------------------
+
+int handle64(void *memorymap);
 
 
 #endif

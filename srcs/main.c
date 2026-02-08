@@ -1,5 +1,7 @@
-#include "../incs/handle64.h"
-#include "../incs/init.h"
+#include "handle64.h"
+#include "init.h"
+#include <stdio.h>
+#include <sys/mman.h>
 
 int identify_elf(void *memorymap)
 {
@@ -30,7 +32,6 @@ int identify_elf(void *memorymap)
 
     return (0);
     
-   // printf("%02x\n", *byte);
 }
 
 
