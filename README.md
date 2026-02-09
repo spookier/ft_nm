@@ -5,6 +5,27 @@ Reimplementation from scratch of the Unix `nm` command in **C**
 Reads **ELF** files (executables, `.o`, `.so`) and prints their symbols  
 The file is `mmap`'d in memory and parsed directly
 
+## Preview
+
+### ELF64 — ft_nm vs GNU nm
+
+<p align="center">
+  <em>ft_nm output (left) compared with GNU nm (right) on the same ELF64 binary</em><br><br>
+  <img width="800" alt="ELF64 ft_nm vs nm"
+       src="https://github.com/user-attachments/assets/3a806551-32ac-41b1-8989-53826094126d" />
+</p>
+
+### ELF32 — ft_nm vs GNU nm
+
+<p align="center">
+  <em>ft_nm output (left) compared with GNU nm (right) on the same ELF32 binary</em><br><br>
+  <img width="800" alt="ELF32 ft_nm vs nm"
+       src="https://github.com/user-attachments/assets/3b61a978-494c-41e1-a185-82f907fb133c" />
+</p>
+
+
+
+
 ## Highlights
 
 - Supports both **ELF64** (x86_64) and **ELF32** (x86_32) binaries
